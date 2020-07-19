@@ -57,7 +57,9 @@ public class UserController {
 			
 			if(accountObj.getBoolean("has_email")) {
 				UserVO user = new UserVO();
-				user.setEmail(accountObj.getString("email"));
+				if(accountObj.has("email")) {
+					user.setEmail(accountObj.getString("email"));
+				}
 				user.setNickname(profileObj.getString("nickname"));
 
 				UserVO selectUser = userService.selectOne(user);
