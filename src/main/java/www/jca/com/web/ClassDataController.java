@@ -87,18 +87,37 @@ public class ClassDataController extends JCAController implements BoardControlle
 		return mv;
 	}
 	@Override
-	@RequestMapping(value="/class/data/edit")
+	@RequestMapping(value="/class/data/edit", method = RequestMethod.GET)
 	public ModelAndView getEditView(ModelAndView mv, Board model, HttpServletRequest request) {
-		mv.setViewName("/notice/edit");
+		List<Menus> menus = menuService.selectChildren();
+		mv.addObject("boardTypes", menus);
+		
+		RestTemplate rest = new RestTemplate();
+		JSONObject json = new JSONObject(rest.getForObject(new String("http://jcoding.kr/api/board/detail/"+model.getId()), String.class));
+		
+		Board board = Board.parseBoard(json.getJSONObject("board"));
+		mv.addObject("board", board);
+		mv.setViewName("/notice/dataWrite");
 		return mv;
 	}
 	@ResponseBody
-	@RequestMapping(value="/class/data/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getEditView(Board model) {
 		logger.info("edit");
 		
 		JSONObject json = new JSONObject();
 		json.put("result", 1);
+		return json.toString();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/class/data/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String edit(Board model) {
+		RestTemplate rest = new RestTemplate();
+		StringBuilder urlBuilder = new StringBuilder();
+		urlBuilder.append("http://jcoding.kr/api/board/edit/");
+		
+		JSONObject json = new JSONObject(rest.postForObject(urlBuilder.toString(), model, Board.class));
+		
 		return json.toString();
 	}
 
