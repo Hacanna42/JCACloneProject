@@ -41,6 +41,10 @@ public class ClassDataController extends JCAController implements BoardControlle
 		if(model.getPageNo() > 0) {
 			urlBuilder.append("/").append(model.getPageNo());
 		}
+		if (model.getQuery()!=null && model.getQuery().length() > 0 ) {
+			urlBuilder.append("?query=").append(model.getQuery());
+		}
+		logger.info(""+urlBuilder.toString());
 		JSONObject json = new JSONObject(rest.getForObject(urlBuilder.toString(),  String.class));
 		try {
 			JSONArray array = json.getJSONArray("list");
@@ -55,6 +59,9 @@ public class ClassDataController extends JCAController implements BoardControlle
 		urlBuilder2.append("http://jcoding.kr/api/board/count/").append(model.getBoardType());
 		if(model.getPageNo() > 0) {
 			urlBuilder2.append("/").append(model.getPageNo());
+		}
+		if (model.getQuery()!=null && model.getQuery().length() > 0 ) {
+			urlBuilder2.append("?query=").append(model.getQuery());
 		}
 		Board paging = rest.getForObject(urlBuilder2.toString(), Board.class);
 				logger.info(paging.toString());

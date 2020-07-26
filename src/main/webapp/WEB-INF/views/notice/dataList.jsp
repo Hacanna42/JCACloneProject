@@ -22,6 +22,12 @@ function pageGo(boardType, pageNo){
 				</div>
 			</div>
 			<div class="board_list_wrap">
+			<form id="search-from" action="<c:url value="${listUrl}"/>">
+				<input type="hidden" name="pageNo" value="${paging.pageNo }"/>
+				<input type="hidden" name="boardType" value="${paging.boardType }"/>
+				<input type="text" name="query" value="${paging.query }"/>
+				<input type="submit" value="검색"/>
+			</form>
 				<form action="<c:url value="${listUrl }"/>">
 					<input type="hidden" name="pageNo" value="${paging.pageNo }" />
 				</form>

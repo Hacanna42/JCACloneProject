@@ -18,7 +18,7 @@ function insertBoard(){
 			type: "POST",
 			dataType: "json"
 		}).done(function(json){
-			if(json.result > 0){
+			if(json.id > 0){
 				alert("작성 완료!");
 				window.location.replace("/class/data/list?boardType="+json.boardType);
 			}
@@ -38,8 +38,9 @@ function insertBoard(){
 			<c:forEach items="${boardTypes }" var="item" varStatus="status">
 				<option value="${item.id }"<c:if test="${item.id eq board.boardType}">selected</c:if>>${item.title}</option>
 			</c:forEach>
-		</select><br> 제목 <input value="${board.title }" type="text" name="title" placeholder="제목 입력"><br>
-		내용 <input value=${board.content} type="text" name="content" placeholder="내용 입력"><br>
+		</select><br> 
+		제목 <input value="${board.title }" type="text" name="title" placeholder="제목 입력"><br>
+		내용 <input value="${board.content}" type="text" name="content" placeholder="내용 입력"><br>
 		<input type="hidden" name="id" value="${board.id }"/>
 		<button type="submit" name="전송" onclick="insertBoard();">전송</button>
 
